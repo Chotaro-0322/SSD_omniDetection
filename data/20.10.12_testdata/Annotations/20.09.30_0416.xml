@@ -1,0 +1,70 @@
+<annotation verified="yes">
+    <folder>Annotation</folder>
+    <filename>20.09.30_0416.jpg</filename>
+    <path>20.10.12_test-PascalVOC-export/Annotations/20.09.30_0416.jpg</path>
+    <source>
+        <database>Unknown</database>
+    </source>
+    <size>
+        <width>1500</width>
+        <height>266</height>
+        <depth>3</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+    <name>difficult_person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>274.2792109256449</xmin>
+        <ymin>143.0886752136752</ymin>
+        <xmax>286.7981790591806</xmax>
+        <ymax>185.14850427350427</ymax>
+    </bndbox>
+</object><object>
+    <name>person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>396.0546282245827</xmin>
+        <ymin>128.31089743589743</ymin>
+        <xmax>415.402124430956</xmax>
+        <ymax>187.42200854700855</ymax>
+    </bndbox>
+</object><object>
+    <name>person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>466.61608497723824</xmin>
+        <ymin>96.4818376068376</ymin>
+        <xmax>498.4825493171472</xmax>
+        <ymax>210.15705128205127</ymax>
+    </bndbox>
+</object><object>
+    <name>person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>496.206373292868</xmin>
+        <ymin>55.55876068376068</ymin>
+        <xmax>559.9393019726859</xmax>
+        <ymax>234.02884615384613</ymax>
+    </bndbox>
+</object><object>
+    <name>difficult_person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>907.0561456752656</xmin>
+        <ymin>126.03739316239316</ymin>
+        <xmax>924.1274658573597</xmax>
+        <ymax>172.64423076923077</ymax>
+    </bndbox>
+</object>
+</annotation>

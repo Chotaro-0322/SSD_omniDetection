@@ -1,0 +1,70 @@
+<annotation verified="yes">
+    <folder>Annotation</folder>
+    <filename>20.09.30_0415.jpg</filename>
+    <path>20.10.12_test-PascalVOC-export/Annotations/20.09.30_0415.jpg</path>
+    <source>
+        <database>Unknown</database>
+    </source>
+    <size>
+        <width>1500</width>
+        <height>266</height>
+        <depth>3</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+    <name>person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>242.412746585736</xmin>
+        <ymin>128.31089743589743</ymin>
+        <xmax>265.1745068285281</xmax>
+        <ymax>204.4732905982906</ymax>
+    </bndbox>
+</object><object>
+    <name>person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>352.8072837632777</xmin>
+        <ymin>128.31089743589743</ymin>
+        <xmax>376.70713201820945</xmax>
+        <ymax>196.51602564102564</ymax>
+    </bndbox>
+</object><object>
+    <name>person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>400.6069802731412</xmin>
+        <ymin>129.5897435897436</ymin>
+        <xmax>417.67830045523533</xmax>
+        <ymax>186.2852564102564</ymax>
+    </bndbox>
+</object><object>
+    <name>person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>748.8619119878605</xmin>
+        <ymin>88.66666666666666</ymin>
+        <xmax>784.1426403641884</xmax>
+        <ymax>205.61004273504273</ymax>
+    </bndbox>
+</object><object>
+    <name>difficult_person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>902.5037936267072</xmin>
+        <ymin>129.44764957264957</ymin>
+        <xmax>912.7465857359637</xmax>
+        <ymax>164.68696581196582</ymax>
+    </bndbox>
+</object>
+</annotation>

@@ -1,0 +1,70 @@
+<annotation verified="yes">
+    <folder>Annotation</folder>
+    <filename>20.09.17_125.jpg</filename>
+    <path>20.09.30.annotation-PascalVOC-export/Annotations/20.09.17_125.jpg</path>
+    <source>
+        <database>Unknown</database>
+    </source>
+    <size>
+        <width>1500</width>
+        <height>266</height>
+        <depth>3</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+    <name>person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>402.67727930535455</xmin>
+        <ymin>106.99374999999999</ymin>
+        <xmax>433.068017366136</xmax>
+        <ymax>198.19374999999997</ymax>
+    </bndbox>
+</object><object>
+    <name>person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>416.7872648335745</xmin>
+        <ymin>87.45089285714285</ymin>
+        <xmax>469.9710564399421</xmax>
+        <ymax>224.25089285714284</ymax>
+    </bndbox>
+</object><object>
+    <name>person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>515.5571635311143</xmin>
+        <ymin>46.193749999999994</ymin>
+        <xmax>608.9001447178002</xmax>
+        <ymax>266</ymax>
+    </bndbox>
+</object><object>
+    <name>person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>268.08972503617946</xmin>
+        <ymin>65.73660714285714</ymin>
+        <xmax>332.1273516642547</xmax>
+        <ymax>227.5080357142857</ymax>
+    </bndbox>
+</object><object>
+    <name>difficult_person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>670.767004341534</xmin>
+        <ymin>134.13660714285714</ymin>
+        <xmax>684.876989869754</xmax>
+        <ymax>163.45089285714286</ymax>
+    </bndbox>
+</object>
+</annotation>

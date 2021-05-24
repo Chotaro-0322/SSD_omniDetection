@@ -1,0 +1,70 @@
+<annotation verified="yes">
+    <folder>Annotation</folder>
+    <filename>20.09.30_0387.jpg</filename>
+    <path>20.10.12_test-PascalVOC-export/Annotations/20.09.30_0387.jpg</path>
+    <source>
+        <database>Unknown</database>
+    </source>
+    <size>
+        <width>1500</width>
+        <height>266</height>
+        <depth>3</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+    <name>difficult_person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>257.2078907435509</xmin>
+        <ymin>143.0886752136752</ymin>
+        <xmax>267.45068285280735</xmax>
+        <ymax>187.42200854700855</ymax>
+    </bndbox>
+</object><object>
+    <name>difficult_person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>279.96965098634297</xmin>
+        <ymin>145.36217948717947</ymin>
+        <xmax>289.0743550834598</xmax>
+        <ymax>182.875</ymax>
+    </bndbox>
+</object><object>
+    <name>difficult_person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>325.49317147192716</xmin>
+        <ymin>133.9946581196581</ymin>
+        <xmax>343.70257966616083</xmax>
+        <ymax>179.4647435897436</ymax>
+    </bndbox>
+</object><object>
+    <name>difficult_person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>339.15022761760247</xmin>
+        <ymin>131.72115384615384</ymin>
+        <xmax>352.8072837632777</xmax>
+        <ymax>184.01175213675214</ymax>
+    </bndbox>
+</object><object>
+    <name>difficult_person</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+        <xmin>375.5690440060698</xmin>
+        <ymin>126.03739316239316</ymin>
+        <xmax>390.3641881638847</xmax>
+        <ymax>179.4647435897436</ymax>
+    </bndbox>
+</object>
+</annotation>
