@@ -39,3 +39,20 @@ data_cfg = {
     'clip': True,
     'name': 'VOTT',
 }
+
+
+
+mb1_cfg = {
+    'num_classes': 2,
+    'lr_steps': ((iterations * 6) / 8, (iterations * 7) / 8, (iterations * 8) / 8),
+    'max_iter': iterations,
+    'feature_maps': [19, 10, 5, 3, 2, 1],
+    'min_dim': 300,
+    'steps': [16, 32, 64, 100, 150, 300],
+    'min_sizes': [60, 105, 150, 195, 240, 285],
+    'max_sizes': [205, 150, 195, 240, 285, 330],
+    'aspect_ratios': [[2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3]],
+    'variance': [0.1, 0.2],
+    'clip': True,
+    'name': 'VOTT',
+}

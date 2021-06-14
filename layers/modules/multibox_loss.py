@@ -59,6 +59,7 @@ class MultiBoxLoss(nn.Module):
             targets (tensor): Ground truth boxes and labels for a batch,
                 shape: [batch_size,num_objs,5] (last idx is the label).
         """
+        # print("predictions shape is ", predictions)
         loc_data, conf_data, priors = predictions
         #print("predictions is ", predictions)
         # print(conf_data.size())
