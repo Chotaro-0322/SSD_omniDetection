@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torchvision.transforms as transforms
-from torch.utils.tensorboard import SummaryWriter
+from tensorboardX import SummaryWriter
 from tqdm import tqdm
 import glob
 import datetime
@@ -90,8 +90,8 @@ class TrainEngine():
         torch.save(self.network.state_dict(), "./weight/ssd300_210523_{}.pth".format(datetime.datetime.now()))
 
 
-dataset_root = "data/1~5_split4"
-vgg16_weightPath = "weight/vgg16_reducedfc.pth"
+dataset_root = "data/201104_anno_split8-singleclass"
+base_weightPath = "weight/base_weight/models/mobilenet_v1_with_relu_69_5.pth"
 
 cfg = mb1_cfg
 mean_cfg = MEANS
@@ -104,8 +104,8 @@ net = create_mobilenetv1_ssd(2)
 # from utils.ssd_model import SSD
 # net2 = SSD("test", data_cfg)
 
-# vgg_weight = torch.load(vgg16_weightPath)
-# net.vgg.load_state_dict(vgg_weight)
+base_weight = torch.load(base_weightPath)
+net.base_net.load_state_dict(base_weight)
 # net.extras.apply(weight_init)
 # net.loc.apply(weight_init)
 # net.conf.apply(weight_init)

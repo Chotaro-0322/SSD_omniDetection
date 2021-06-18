@@ -5,6 +5,33 @@ import numpy as np
 import types
 from numpy import random
 
+
+def intersect(box_a, box_b):
+    max_xy = np.minimum(box_a[:, 2:], box_b[2:])
+    min_xy = np.maximum(box_a[:, :2], box_b[:2])
+    inter = np.clip((max_xy - min_xy), a_min=0, a_max=np.inf)
+    return inter[:, 0] * inter[:, 1]
+
+
+def jaccard_numpy(box_a, box_b):
+    """Compute the jaccard overlap of two sets of boxes.  The jaccard overlap
+    is simply the intersection over union of two boxes.
+    E.g.:
+        A ∩ B / A ∪ B = A ∩ B / (area(A) + area(B) - A ∩ B)
+    Args:
+        box_a: Multiple bounding boxes, Shape: [num_boxes,4]
+        box_b: Single bounding box, Shape: [4]
+    Return:
+        jaccard overlap: Shape: [box_a.shape[0], box_a.shape[1]]
+    """
+    inter = intersect(box_a, box_b)
+    area_a = ((box_a[:, 2]-box_a[:, 0]) *
+              (box_a[:, 3]-box_a[:, 1]))  # [A,B]
+    area_b = ((box_b[2]-box_b[0]) *
+              (box_b[3]-box_b[1]))  # [A,B]
+    union = area_a + area_b - inter
+    return inter / union  # [A,B]
+
 class Compose(object):
     """Composes several augmentations together.
     Args:
@@ -21,6 +48,9 @@ class Compose(object):
 
     def __call__(self, img, boxes=None, labels=None):
         for t in self.transforms:
+            # print("t is ", t)
+            # print("boxes is ", type(boxes))
+            # print("boxes is ", boxes)
             img, boxes, labels = t(img, boxes, labels)
         return img, boxes, labels
 
@@ -49,14 +79,24 @@ class SubtractMeans(object):
         image -= self.mean
         return image.astype(np.float32), boxes, labels
 
+class DeSubstractMeans(object):
+    def __init__(self, mean):
+        self.mean = np.array(mean, dtype=np.float32)
+
+    def __call__(self, image, boxes=None, labels=None):
+        # image = image.astype(np.uint8)
+        image += self.mean
+        return image.astype(np.uint8), boxes, labels
+    
 
 class ToAbsoluteCoords(object):
     def __call__(self, image, boxes=None, labels=None):
         height, width, channels = image.shape
-        boxes[:, 0] *= width
-        boxes[:, 2] *= width
-        boxes[:, 1] *= height
-        boxes[:, 3] *= height
+        if not isinstance(boxes, str) and boxes is not None:
+            boxes[:, 0] *= width
+            boxes[:, 2] *= width
+            boxes[:, 1] *= height
+            boxes[:, 3] *= height
 
         return image, boxes, labels
 
@@ -64,10 +104,11 @@ class ToAbsoluteCoords(object):
 class ToPercentCoords(object):
     def __call__(self, image, boxes=None, labels=None):
         height, width, channels = image.shape
-        boxes[:, 0] /= width
-        boxes[:, 2] /= width
-        boxes[:, 1] /= height
-        boxes[:, 3] /= height
+        if not isinstance(boxes, str) and boxes is not None:
+            boxes[:, 0] /= width
+            boxes[:, 2] /= width
+            boxes[:, 1] /= height
+            boxes[:, 3] /= height
 
         return image, boxes, labels
 
@@ -383,33 +424,81 @@ class PanoramaSplit4(object):
         #print("image is ", image.shape)
         img_separate4 = np.split(image, [300, 300*2, 300*3], 1)
         img_separate4 = np.stack(img_separate4)
-        #cv_img = img_separate4
+        cv_img = img_separate4
         #print("cv_img stack is ", cv_img.shape)
         #print("cv_img is ", cv_img[0].shape)
-        #for img in cv_img:
+        # for img in cv_img:
         #    check_image(img)
         #print("img_list is ", img_separate4.shape)
         #print("img_list is ", img_separate4)
 
         return img_separate4
 
+class Return_omni(object):
+    def __call__(self, img, boxes, labels):
+        img = self.return_omni(img)
+        return img, boxes, labels
+
+    def return_omni(self, img):
+        img = img.detach().numpy().copy()
+        #img = img[1]
+        #print("img is ", img.shape)
+        img = np.concatenate([img[0], img[1], img[2], img[3]], 2)
+        img = img.transpose(1, 2, 0)
+        # img = np.reshape(img, (300, 1200, 3))
+        #check_image(img)
+
+        return img
+
 class EvalAugmentation(object):
-    def __init__(self, size=300, mean=(104, 117, 123)):
+    def __init__(self, size=300, mean=(104, 117, 123), std=128.0):
         self.mean = mean
         self.size = size
         self.augment = Compose([
             ConvertFromInts(),
-            Resize(300),
+            # ToAbsoluteCoords(),
+            # PhotometricDistort(),
+            # RandomSampleCrop(),
+            # ToPercentCoords(),
+            Resize(self.size),
             PanoramaSplit4(),
-            SubtractMeans(mean),
+            SubtractMeans(self.mean),
+            lambda img, boxes=None, labels=None: (img / 128.0, boxes, labels),
+            # ToOmniTensor()
+            # ConvertFromInts(),
+            # Resize(300),
+            # PanoramaSplit4(),
+            # SubtractMeans(mean),
             ToOmniTensor()
+        ])
+
+    def __call__(self, img, boxes, labels):
+        # check_image_box(img, boxes)
+        return self.augment(img, boxes, labels)
+
+class AfterAugmentation(object):
+    def __init__(self, size=300, mean=(104, 117, 123), std=128.0):
+        self.mean = mean
+        self.size = size
+        self.augment = Compose([
+            Return_omni(),
+            lambda img, boxes=None, labels=None: (img * std, boxes, labels),
+            DeSubstractMeans(self.mean)
         ])
 
     def __call__(self, img, boxes, labels):
         return self.augment(img, boxes, labels)
 
-
 def check_image(imgCV):
+    # imgCV = imgCV.detach().numpy().copy()
+    # imgCV = imgCV.transpose(1, 2, 0)
+    cv2.imshow("image", imgCV)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+def check_image_box(imgCV):
+    # imgCV = imgCV.detach().numpy().copy()
+    # imgCV = imgCV.transpose(1, 2, 0)
     cv2.imshow("image", imgCV)
     cv2.waitKey(0)
     cv2.destroyAllWindows()

@@ -3,8 +3,10 @@ import torch.nn as nn
 from torch.nn import Conv2d, Sequential, ModuleList, ReLU
 import torch.nn.functional as F
 from torch.autograd import Variable
-from layers.functions import *
-from layers.modules import *
+from utils.box_utils import *
+from utils.prior_box import *
+# from layers.functions import *
+# from layers.modules import *
 from config import mb1_cfg
 from typing import List, Tuple
 from collections import namedtuple
@@ -29,6 +31,8 @@ class SSD(nn.Module):
         self.regression_headers = regression_headers
         self.is_test = is_test
         self.config = config
+        self.center_variance = torch.tensor(self.config["variance"][0]).to(torch.device("cuda:0"))
+        self.size_variance = torch.tensor(self.config["variance"][1]).to(torch.device("cuda:0"))
         self.priorbox = PriorBox(self.config)
         self.priors = self.priorbox.forward().to(torch.device("cuda:0"))
 
@@ -39,9 +43,9 @@ class SSD(nn.Module):
             self.device = device
         else:
             self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-        if is_test:
-            self.config = config
-            self.priors = config.priors.to(self.device)
+        # if is_test:
+        #     self.config = config
+        #     self.priors = config.priors.to(self.device)
 
     def forward(self, x: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         confidences = []
@@ -94,19 +98,20 @@ class SSD(nn.Module):
         confidences = torch.cat(confidences, 1)
         locations = torch.cat(locations, 1)
 
-        # if self.is_test:
-        #     confidences = F.softmax(confidences, dim=2)
-        #     boxes = box_utils.convert_locations_to_boxes(
-        #         locations, self.priors, self.config.center_variance, self.config.size_variance
-        #     )
-        #     boxes = box_utils.center_form_to_corner_form(boxes)
-        #     return confidences, boxes
-        # else:
-        #     return confidences, locations
-        print("locations is ", confidences.size())
-        print("self.priors is ", self.priors.shape)
-        output = (locations, confidences, self.priors)
-        return output
+        if self.is_test:
+            confidences = F.softmax(confidences, dim=2)
+            print("confidences", confidences)
+            # print("confidences", [confidences > 0.5])
+            boxes = convert_locations_to_boxes(
+                locations, self.priors, self.center_variance, self.size_variance
+            )
+            boxes = center_form_to_corner_form(boxes)
+            return confidences, boxes
+        else:
+            # print("locations is ", confidences.size())
+            # print("self.priors is ", self.priors.shape)
+            output = (locations, confidences, self.priors)
+            return output
 
     def compute_header(self, i, x):
         confidence = self.classification_headers[i](x)

@@ -79,6 +79,8 @@ class SubtractMeans(object):
 class ToAbsoluteCoords(object):
     def __call__(self, image, boxes=None, labels=None):
         height, width, channels = image.shape
+        # print("boxes is ", boxes)
+        # print("img is ", image.shape)
         boxes[:, 0] *= width
         boxes[:, 2] *= width
         boxes[:, 1] *= height
@@ -320,8 +322,7 @@ class Expand(object):
         top = random.uniform(0, height*ratio - height)
 
         expand_image = np.zeros(
-            (int(height*ratio), int(width*ratio), depth),
-            dtype=image.dtype)
+            (int(height*ratio), int(width*ratio), depth), dtype=image.dtype)
         expand_image[:, :, :] = self.mean
         expand_image[int(top):int(top + height),
                      int(left):int(left + width)] = image
@@ -428,11 +429,32 @@ class TrainAugmentation(object):
             RandomMirror(),
             ToPercentCoords(),
             Resize(self.size),
-            SubtractMeans(self.mean)
+            SubtractMeans(self.mean),
+            lambda img, boxes=None, labels=None: (img / 128.0, boxes, labels)
         ])
 
     def __call__(self, img, boxes, labels):
-        return self.augment(img, boxes, labels)
+        augument = self.augment(img, boxes, labels)
+        # check_image_box(augument[0], augument[1])
+        return augument
 
 
+def check_image_box(img, boxes):
+    # imgCV = imgCV.detach().numpy().copy()
+    # imgCV = imgCV.transpose(1, 2, 0)
+    width = 300
+    height = 300
+    # print("boxes is ", boxes)
+    if boxes is not None:
+        for box in boxes:
+            # print("box is ", box)
+            # print("box is ", np.int(box[1] + 1 * width/4))
+            img_ori = cv2.rectangle(img,
+                                (np.int(box[0]), np.int(box[1])),
+                                (np.int(box[2]), np.int(box[3])),
+                                (255, 0, 0), 5
+                                                    )
+    cv2.imshow("image", img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
